@@ -28,14 +28,14 @@ public class MainActivity extends AppCompatActivity {
 
         final BaseAdapter adapter = new BaseAdapter(list);
 
-        CCXRecycleView recycleView = (CCXRecycleView) findViewById(R.id.recycler);
-        recycleView.setLayoutManager(new LinearLayoutManager(this));
-        recycleView.setAdapter(adapter);
+        CCXRecycleView ccxRecycleView = (CCXRecycleView) findViewById(R.id.recycler);
+        ccxRecycleView.setLayoutManager(new LinearLayoutManager(this));
+        ccxRecycleView.setAdapter(adapter);
 
-        recycleView.setDeleteEnable(true);
-        recycleView.setLoadMoreEnable(true);
-        recycleView.setDivideEnable(true);
-        recycleView.addLoadMoreListener(new CCXRecycleView.OnLoadMoreListener() {
+        ccxRecycleView.setDeleteEnable(true);
+        ccxRecycleView.setLoadMoreEnable(true);
+        ccxRecycleView.setDivideEnable(true);
+        ccxRecycleView.addLoadMoreListener(new CCXRecycleView.OnLoadMoreListener() {
             @Override
             public void loadMore() {
                 for (int i= 0; i < 10; i++) {
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
-        recycleView.addDeleteListener(new CCXRecycleView.OnDeleteListener() {
+        ccxRecycleView.addDeleteListener(new CCXRecycleView.OnDeleteListener() {
             @Override
             public void delete(int position) {
                 list.remove(position);

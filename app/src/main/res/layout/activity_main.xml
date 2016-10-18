@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="cn.ccx.mymodule.MainActivity">
-
+    <Sw
     <cn.ccx.recycleview.CCXRecycleView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:divider_width="1dp"
+        app:divider_color="@color/colorAccent"
+        app:text="My Life For Android"
+        app:text_size="16sp"
+        app:text_color="@color/colorPrimary"/>
 </RelativeLayout>
