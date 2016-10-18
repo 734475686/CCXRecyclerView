@@ -6,7 +6,7 @@
 如何使用
 ```java
 	dependencies {
-	        compile 'com.github.ccx19920806:CCXRecyclerView:1.0'
+	        compile 'com.github.chanchangxing:CCXRecyclerView:1.0'
 	}
 ```
 
