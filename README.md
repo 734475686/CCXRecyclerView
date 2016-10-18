@@ -3,6 +3,13 @@
 ####一个具有滑动删除，加载更多和分隔线的recyclerview
 ![Alt text](./images/ccxRecyclerview.gif)
 
+如何使用
+```java
+	dependencies {
+	        compile 'com.github.ccx19920806:CCXRecyclerView:1.0'
+	}
+```
+
 ```java
 //设置是否有删除功能
 ccxRecycleView.setDeleteEnable(true);
