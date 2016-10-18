@@ -1,3 +1,4 @@
+[![](https://jitpack.io/v/ccx19920806/CCXRecyclerView.svg)](https://jitpack.io/#ccx19920806/CCXRecyclerView)
 ##CCXRecyclerView
 ####一个具有滑动删除，加载更多和分隔线的recyclerview
 ![Alt text](./images/ccxRecyclerview.gif)
