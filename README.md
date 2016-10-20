@@ -4,6 +4,16 @@
 ![Alt text](./images/ccxRecyclerview.gif)
 
 如何使用
+
+```java
+    allprojects {
+        repositories {
+            ...
+            maven { url "https://jitpack.io" }
+        }
+    }
+```
+
 ```java
 	dependencies {
 	        compile 'com.github.chanchangxing:CCXRecyclerView:1.0'
