@@ -22,9 +22,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        for (int i= 0; i < 15; i++) {
-            list.add("aaa");
-        }
+//        for (int i= 0; i < 15; i++) {
+//            list.add("aaa");
+//        }
 
         final BaseAdapter adapter = new BaseAdapter(list);
 
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         ccxRecycleView.setDeleteEnable(true);
         ccxRecycleView.setLoadMoreEnable(true);
         ccxRecycleView.setDivideEnable(true);
+        ccxRecycleView.setEmptyViewEnable(true);
         ccxRecycleView.addLoadMoreListener(new CCXRecycleView.OnLoadMoreListener() {
             @Override
             public void loadMore() {

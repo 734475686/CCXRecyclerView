@@ -2,9 +2,11 @@ package cn.ccx.recycleview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +22,8 @@ import android.view.View;
 
 public class CCXRecycleView extends RecyclerView {
 
+    private static final String CCXRECYCLEVIEW_LOG = "ccxRecyclerView";
+
     private int dividerColor;
     private float dividerWidth;
 
@@ -27,16 +31,17 @@ public class CCXRecycleView extends RecyclerView {
     private float textSize;
     private int textColor;
 
+    private String emptyText;
+    private float emptyTextSize;
+    private int emptyTextColor;
+
 
     private OnLoadMoreListener onLoadMoreListener;
     private OnDeleteListener onDeleteListener;
-    private ItemTouchHelper helper;
 
 
     public CCXRecycleView(Context context) {
         super(context);
-        init();
-
     }
 
     public CCXRecycleView(Context context, @Nullable AttributeSet attrs) {
@@ -52,17 +57,28 @@ public class CCXRecycleView extends RecyclerView {
                 getResources().getColor(R.color.black));
         dividerWidth = typedArray.getDimension(
                 R.styleable.CCXRecycleView_divider_width,
-                dip2px(getContext(), 0.5));
+                dip2px(0.5));
 
         text = typedArray.getString(
                 R.styleable.CCXRecycleView_text);
 
         textSize = typedArray.getDimension(
                 R.styleable.CCXRecycleView_text_size,
-                dip2px(getContext(), 14));
+                dip2px(14));
 
         textColor = typedArray.getColor(
                 R.styleable.CCXRecycleView_text_color,
+                getResources().getColor(R.color.black));
+
+        emptyText = typedArray.getString(
+                R.styleable.CCXRecycleView_empty_text);
+
+        emptyTextSize = typedArray.getDimension(
+                R.styleable.CCXRecycleView_empty_text_size,
+                dip2px(20));
+
+        emptyTextColor = typedArray.getColor(
+                R.styleable.CCXRecycleView_empty_text_color,
                 getResources().getColor(R.color.black));
 
         typedArray.recycle();
@@ -70,14 +86,14 @@ public class CCXRecycleView extends RecyclerView {
 
     public void setDeleteEnable(boolean enable) {
         if (enable) {
-            helper = new ItemTouchHelper(callback);
+            ItemTouchHelper helper = new ItemTouchHelper(callback);
             helper.attachToRecyclerView(this);
         }
     }
 
     public void setDivideEnable(boolean enable) {
         if (enable) {
-            super.addItemDecoration(itemDecoration);
+            super.addItemDecoration(dividerDecoration);
         }
     }
 
@@ -88,7 +104,18 @@ public class CCXRecycleView extends RecyclerView {
         }
     }
 
+    public void setEmptyViewEnable(boolean enable) {
+        if (enable && super.getAdapter().getItemCount() == 0) {
+            super.addItemDecoration(emptyDecoration);
+            super.removeItemDecoration(loadMoreDecoration);
+            super.removeItemDecoration(dividerDecoration);
+            return;
+        }
 
+        if (super.getAdapter().getItemCount() > 0) {
+            Log.e(CCXRECYCLEVIEW_LOG, "your item is not empty");
+        }
+    }
 
     OnScrollListener onScrollListener = new OnScrollListener() {
         boolean isSlidingToLast;
@@ -107,7 +134,7 @@ public class CCXRecycleView extends RecyclerView {
                     if (onLoadMoreListener != null) {
                         onLoadMoreListener.loadMore();
                     } else {
-                        Log.e("CCXRecycleView", "you forget the initialize OnLoadMoreListener");
+                        Log.e(CCXRECYCLEVIEW_LOG, "you forget the initialize OnLoadMoreListener");
                     }
                 }
             }
@@ -132,7 +159,7 @@ public class CCXRecycleView extends RecyclerView {
             if (onDeleteListener != null) {
                 onDeleteListener.delete(viewHolder.getAdapterPosition());
             } else {
-                Log.e("CCXRecycleView", "you forget the initialize OnLoadMoreListener");
+                Log.e(CCXRECYCLEVIEW_LOG, "you forget the initialize OnLoadMoreListener");
             }
         }
 
@@ -148,7 +175,7 @@ public class CCXRecycleView extends RecyclerView {
         }
     };
 
-    RecyclerView.ItemDecoration itemDecoration = new ItemDecoration() {
+    RecyclerView.ItemDecoration dividerDecoration = new ItemDecoration() {
         @Override
         public void onDraw(Canvas c, RecyclerView parent, State state) {
             super.onDraw(c, parent, state);
@@ -163,7 +190,7 @@ public class CCXRecycleView extends RecyclerView {
                 RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
                 int top = child.getBottom() + params.bottomMargin;
 
-                paint.setStrokeWidth(dip2px(getContext(), dividerWidth));
+                paint.setStrokeWidth(dip2px(dividerWidth));
                 paint.setColor(getContext().getResources().getColor(R.color.black));
                 c.drawLine(left, top, right, top, paint);
             }
@@ -172,7 +199,7 @@ public class CCXRecycleView extends RecyclerView {
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, State state) {
             super.getItemOffsets(outRect, view, parent, state);
-            outRect.set(0, 0, 0, dip2px(getContext(), dividerWidth));
+            outRect.set(0, 0, 0, dip2px(dividerWidth));
         }
     };
 
@@ -184,7 +211,7 @@ public class CCXRecycleView extends RecyclerView {
             LinearLayoutManager manager = (LinearLayoutManager) parent.getLayoutManager();
 
             int width = parent.getWidth() + parent.getPaddingLeft();
-            int layoutSize = dip2px(getContext(), 50);
+            int layoutSize = dip2px(50);
 
             Paint paint = new Paint();
             paint.setTextSize(textSize);
@@ -206,10 +233,40 @@ public class CCXRecycleView extends RecyclerView {
             super.getItemOffsets(outRect, view, parent, state);
             LinearLayoutManager manager = (LinearLayoutManager) parent.getLayoutManager();
 
-            int layoutSize = dip2px(getContext(), 50);
+            int layoutSize = dip2px(50);
             if (parent.getChildAdapterPosition(view) == manager.getItemCount() - 1) {
                 outRect.set(0, 0, 0, layoutSize);
             }
+        }
+    };
+
+    RecyclerView.ItemDecoration emptyDecoration = new ItemDecoration() {
+        @Override
+        public void onDraw(Canvas c, RecyclerView parent, State state) {
+            super.onDraw(c, parent, state);
+
+
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.no_data);
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+            int iconX = parent.getWidth() / 2 - bitmap.getWidth() / 2;
+            int iconY = (int) (parent.getHeight() / 2 - bitmap.getHeight() / 2 - emptyTextSize);
+
+            String content = TextUtils.isEmpty(emptyText) ? emptyText = "暂无数据" : emptyText;
+            int textX = (int) (parent.getWidth() / 2 - content.length() / 2 * emptyTextSize);
+            int textY = (int) (parent.getHeight() / 2 + bitmap.getHeight() / 2 - emptyTextSize) + dip2px(20);
+
+            Paint paint = new Paint();
+            paint.setTextSize(emptyTextSize);
+            paint.setColor(emptyTextColor);
+
+            c.drawBitmap(bitmap, iconX, iconY, new Paint());
+            c.drawText(emptyText, textX, textY, paint);
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+            outRect.set(parent.getWidth() / 2, parent.getHeight() / 2, 0, 0);
         }
     };
 
@@ -221,8 +278,8 @@ public class CCXRecycleView extends RecyclerView {
         this.onDeleteListener = onDeleteListener;
     }
 
-    public static int dip2px(Context context, double d) {
-        final float scale = context.getResources().getDisplayMetrics().density;
+    public int dip2px(double d) {
+        final float scale = getContext().getResources().getDisplayMetrics().density;
         return (int) (d * scale + 0.5f);
     }
 

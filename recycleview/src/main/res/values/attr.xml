@@ -7,5 +7,10 @@
         <attr name="text" format="string" />
         <attr name="text_size" format="dimension" />
         <attr name="text_color" format="color" />
+
+        <attr name="empty_text" format="string"/>
+        <attr name="empty_text_color" format="color"/>
+        <attr name="empty_text_size" format="dimension"/>
+        <attr name="empty_icon" format="reference"/>
     </declare-styleable>
 </resources>
