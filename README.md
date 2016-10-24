@@ -16,7 +16,7 @@
 
 ```java
 	dependencies {
-	        compile 'com.github.chanchangxing:CCXRecyclerView:1.1'
+	        compile 'com.github.chanchangxing:CCXRecyclerView:1.2'
 	}
 ```
 
@@ -27,6 +27,8 @@ ccxRecycleView.setDeleteEnable(true);
 ccxRecycleView.setLoadMoreEnable(true);
 //设置是否有分割线
 ccxRecycleView.setDivideEnable(true);
+//设置是否展示空页面
+ccxRecycleView.setEmptyViewEnable(true);
 
 //删除监听事件
 ccxRecycleView.addDeleteListener(new CCXRecycleView.OnDeleteListener() {
