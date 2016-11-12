@@ -35,7 +35,6 @@ public class CCXRecycleView extends RecyclerView {
     private float emptyTextSize;
     private int emptyTextColor;
 
-
     private OnLoadMoreListener onLoadMoreListener;
     private OnDeleteListener onDeleteListener;
 
@@ -46,18 +45,18 @@ public class CCXRecycleView extends RecyclerView {
 
     public CCXRecycleView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context, attrs);
     }
 
-    private void init() {
-        TypedArray typedArray = getContext().obtainStyledAttributes(R.styleable.CCXRecycleView);
+    private void init(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CCXRecycleView);
 
         dividerColor = typedArray.getColor(
                 R.styleable.CCXRecycleView_divider_color,
-                getResources().getColor(R.color.black));
+                0);
         dividerWidth = typedArray.getDimension(
                 R.styleable.CCXRecycleView_divider_width,
-                dip2px(0.5));
+                0);
 
         text = typedArray.getString(
                 R.styleable.CCXRecycleView_text);
@@ -81,6 +80,8 @@ public class CCXRecycleView extends RecyclerView {
                 R.styleable.CCXRecycleView_empty_text_color,
                 getResources().getColor(R.color.black));
 
+
+
         typedArray.recycle();
     }
 
@@ -93,22 +94,22 @@ public class CCXRecycleView extends RecyclerView {
 
     public void setDivideEnable(boolean enable) {
         if (enable) {
-            super.addItemDecoration(dividerDecoration);
+            addItemDecoration(dividerDecoration);
         }
     }
 
     public void setLoadMoreEnable(boolean enable) {
         if (enable) {
-            super.addOnScrollListener(onScrollListener);
-            super.addItemDecoration(loadMoreDecoration, this.getChildCount());
+            addOnScrollListener(onScrollListener);
+            addItemDecoration(loadMoreDecoration, this.getChildCount());
         }
     }
 
     public void setEmptyViewEnable(boolean enable) {
         if (enable && super.getAdapter().getItemCount() == 0) {
-            super.addItemDecoration(emptyDecoration);
-            super.removeItemDecoration(loadMoreDecoration);
-            super.removeItemDecoration(dividerDecoration);
+            addItemDecoration(emptyDecoration);
+            removeItemDecoration(loadMoreDecoration);
+            removeItemDecoration(dividerDecoration);
             return;
         }
 
@@ -191,7 +192,7 @@ public class CCXRecycleView extends RecyclerView {
                 int top = child.getBottom() + params.bottomMargin;
 
                 paint.setStrokeWidth(dip2px(dividerWidth));
-                paint.setColor(getContext().getResources().getColor(R.color.black));
+                paint.setColor(dividerColor);
                 c.drawLine(left, top, right, top, paint);
             }
         }
@@ -219,12 +220,12 @@ public class CCXRecycleView extends RecyclerView {
 
             View view = parent.getChildAt(parent.getChildCount() - 1);
 
-            String content = TextUtils.isEmpty(text) ? text = "加载更多" : text;
+            String content = TextUtils.isEmpty(text) ? "加载更多" : text;
 
             int left = (int) (width / 2 - textSize * (content.length() / 2));
 
             if (parent.getChildCount() < manager.getItemCount() && parent.getChildCount() - 1 <= manager.findLastCompletelyVisibleItemPosition()) {
-                c.drawText(content, left, view.getBottom() + layoutSize / 2, paint);
+                c.drawText(content, left, view.getBottom() + layoutSize / 2 + textSize / 2, paint);
             }
         }
 

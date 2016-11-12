@@ -22,27 +22,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        for (int i= 0; i < 15; i++) {
-//            list.add("aaa");
-//        }
+        for (int i= 0; i < 9; i++) {
+            list.add("aaa");
+        }
 
         final BaseAdapter adapter = new BaseAdapter(list);
 
         CCXRecycleView ccxRecycleView = (CCXRecycleView) findViewById(R.id.recycler);
+
+        ccxRecycleView.setDivideEnable(true);
+        ccxRecycleView.setLoadMoreEnable(true);
+
         ccxRecycleView.setLayoutManager(new LinearLayoutManager(this));
         ccxRecycleView.setAdapter(adapter);
-
-        ccxRecycleView.setDeleteEnable(true);
-        ccxRecycleView.setLoadMoreEnable(true);
-        ccxRecycleView.setDivideEnable(true);
-        ccxRecycleView.setEmptyViewEnable(true);
         ccxRecycleView.addLoadMoreListener(new CCXRecycleView.OnLoadMoreListener() {
             @Override
             public void loadMore() {
-                for (int i= 0; i < 10; i++) {
-                    list.add("aaa");
-                }
-                adapter.notifyDataSetChanged();
+//                for (int i= 0; i < 10; i++) {
+//                    list.add("aaa");
+//                }
+//                adapter.notifyDataSetChanged();
             }
         });
         ccxRecycleView.addDeleteListener(new CCXRecycleView.OnDeleteListener() {
