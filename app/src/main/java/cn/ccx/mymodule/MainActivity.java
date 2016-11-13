@@ -2,7 +2,6 @@ package cn.ccx.mymodule;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        for (int i= 0; i < 9; i++) {
+        for (int i= 0; i < 16; i++) {
             list.add("aaa");
         }
 
@@ -32,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
         ccxRecycleView.setDivideEnable(true);
         ccxRecycleView.setLoadMoreEnable(true);
+        ccxRecycleView.setLayoutManager(CCXRecycleView.GRIDLAYOUT_MANAGER, 5);
 
-        ccxRecycleView.setLayoutManager(new LinearLayoutManager(this));
         ccxRecycleView.setAdapter(adapter);
         ccxRecycleView.addLoadMoreListener(new CCXRecycleView.OnLoadMoreListener() {
             @Override

@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -23,6 +24,10 @@ import android.view.View;
 public class CCXRecycleView extends RecyclerView {
 
     private static final String CCXRECYCLEVIEW_LOG = "ccxRecyclerView";
+    public static final int LINEARLAYOUT_MANAGER = 0;
+    public static final int GRIDLAYOUT_MANAGER = 1;
+
+    private int layoutManager;
 
     private int dividerColor;
     private float dividerWidth;
@@ -83,6 +88,30 @@ public class CCXRecycleView extends RecyclerView {
 
 
         typedArray.recycle();
+    }
+
+    public void setLayoutManager(int layoutManager) {
+        this.layoutManager = layoutManager;
+        if (layoutManager == LINEARLAYOUT_MANAGER) {
+            setLayoutManager(new LinearLayoutManager(getContext()));
+            return;
+        }
+
+        if (layoutManager == GRIDLAYOUT_MANAGER) {
+            setLayoutManager(new GridLayoutManager(getContext(), 2));
+        }
+    }
+
+    public void setLayoutManager(int layoutManager, int count) {
+        this.layoutManager = layoutManager;
+        if (layoutManager == LINEARLAYOUT_MANAGER) {
+            setLayoutManager(new LinearLayoutManager(getContext()));
+            return;
+        }
+
+        if (layoutManager == GRIDLAYOUT_MANAGER) {
+            setLayoutManager(new GridLayoutManager(getContext(), count));
+        }
     }
 
     public void setDeleteEnable(boolean enable) {
@@ -209,8 +238,6 @@ public class CCXRecycleView extends RecyclerView {
         public void onDraw(Canvas c, RecyclerView parent, State state) {
             super.onDraw(c, parent, state);
 
-            LinearLayoutManager manager = (LinearLayoutManager) parent.getLayoutManager();
-
             int width = parent.getWidth() + parent.getPaddingLeft();
             int layoutSize = dip2px(50);
 
@@ -222,10 +249,22 @@ public class CCXRecycleView extends RecyclerView {
 
             String content = TextUtils.isEmpty(text) ? "加载更多" : text;
 
-            int left = (int) (width / 2 - textSize * (content.length() / 2));
+            int left = (int) (width - textSize * (content.length() / 2));
 
-            if (parent.getChildCount() < manager.getItemCount() && parent.getChildCount() - 1 <= manager.findLastCompletelyVisibleItemPosition()) {
-                c.drawText(content, left, view.getBottom() + layoutSize / 2 + textSize / 2, paint);
+            left = layoutManager == GRIDLAYOUT_MANAGER ? left / 2 : left;
+
+            if (layoutManager == LINEARLAYOUT_MANAGER) {
+
+                LinearLayoutManager manager = (LinearLayoutManager) parent.getLayoutManager();
+
+                if (parent.getChildCount() < manager.getItemCount() && parent.getChildCount() - 1 <= manager.findLastCompletelyVisibleItemPosition()) {
+                    c.drawText(content, left, view.getBottom() + layoutSize / 2 + textSize / 2, paint);
+                }
+            } else {
+                GridLayoutManager manager = (GridLayoutManager) parent.getLayoutManager();
+                if (parent.getChildCount() < manager.getItemCount() && parent.getChildCount() - 1 <= manager.findLastCompletelyVisibleItemPosition()) {
+                    c.drawText(content, left, view.getBottom() + layoutSize / 2 + textSize / 2, paint);
+                }
             }
         }
 
