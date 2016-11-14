@@ -30,6 +30,10 @@ ccxRecycleView.setLoadMoreEnable(true);
 ccxRecycleView.setDivideEnable(true);
 //设置是否展示空页面
 ccxRecycleView.setEmptyViewEnable(true);
+//因为加载更多的局限性，请务必设置通过这种方法设置布局
+ccxRecycleView.setLayoutManager(CCXRecycleView.LINEARLAYOUT_MANAGER)
+ccxRecycleView.setLayoutManager(CCXRecycleView.GRIDLAYOUT_MANAGER)
+ccxRecycleView.setLayoutManager(CCXRecycleView.GRIDLAYOUT_MANAGER, 2)
 
 //删除监听事件
 ccxRecycleView.addDeleteListener(new CCXRecycleView.OnDeleteListener() {
