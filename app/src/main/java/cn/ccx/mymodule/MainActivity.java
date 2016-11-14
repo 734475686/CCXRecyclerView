@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        for (int i= 0; i < 16; i++) {
+        for (int i= 0; i < 40; i++) {
             list.add("aaa");
         }
 
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         ccxRecycleView.setDivideEnable(true);
         ccxRecycleView.setLoadMoreEnable(true);
-        ccxRecycleView.setLayoutManager(CCXRecycleView.GRIDLAYOUT_MANAGER, 5);
+        ccxRecycleView.setLayoutManager(CCXRecycleView.GRIDLAYOUT_MANAGER);
 
         ccxRecycleView.setAdapter(adapter);
         ccxRecycleView.addLoadMoreListener(new CCXRecycleView.OnLoadMoreListener() {

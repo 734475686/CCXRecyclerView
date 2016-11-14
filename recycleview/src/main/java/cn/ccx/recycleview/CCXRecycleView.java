@@ -28,6 +28,7 @@ public class CCXRecycleView extends RecyclerView {
     public static final int GRIDLAYOUT_MANAGER = 1;
 
     private int layoutManager;
+    private int rowCount;
 
     private int dividerColor;
     private float dividerWidth;
@@ -98,6 +99,7 @@ public class CCXRecycleView extends RecyclerView {
         }
 
         if (layoutManager == GRIDLAYOUT_MANAGER) {
+            rowCount = 2;
             setLayoutManager(new GridLayoutManager(getContext(), 2));
         }
     }
@@ -110,6 +112,7 @@ public class CCXRecycleView extends RecyclerView {
         }
 
         if (layoutManager == GRIDLAYOUT_MANAGER) {
+            rowCount = count;
             setLayoutManager(new GridLayoutManager(getContext(), count));
         }
     }
@@ -249,9 +252,7 @@ public class CCXRecycleView extends RecyclerView {
 
             String content = TextUtils.isEmpty(text) ? "加载更多" : text;
 
-            int left = (int) (width - textSize * (content.length() / 2));
-
-            left = layoutManager == GRIDLAYOUT_MANAGER ? left / 2 : left;
+            int left = ((int) (width - textSize * (content.length() / 2))) / 2;
 
             if (layoutManager == LINEARLAYOUT_MANAGER) {
 
@@ -262,7 +263,8 @@ public class CCXRecycleView extends RecyclerView {
                 }
             } else {
                 GridLayoutManager manager = (GridLayoutManager) parent.getLayoutManager();
-                if (parent.getChildCount() < manager.getItemCount() && parent.getChildCount() - 1 <= manager.findLastCompletelyVisibleItemPosition()) {
+
+                if (parent.getChildCount() < manager.getItemCount() && parent.getChildCount() - 1 <= manager.getPosition(view)) {
                     c.drawText(content, left, view.getBottom() + layoutSize / 2 + textSize / 2, paint);
                 }
             }
@@ -271,11 +273,29 @@ public class CCXRecycleView extends RecyclerView {
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, State state) {
             super.getItemOffsets(outRect, view, parent, state);
-            LinearLayoutManager manager = (LinearLayoutManager) parent.getLayoutManager();
 
             int layoutSize = dip2px(50);
-            if (parent.getChildAdapterPosition(view) == manager.getItemCount() - 1) {
-                outRect.set(0, 0, 0, layoutSize);
+            if (layoutManager == LINEARLAYOUT_MANAGER) {
+                LinearLayoutManager manager = (LinearLayoutManager) parent.getLayoutManager();
+
+                if (parent.getChildCount() < manager.getItemCount() && manager.getItemCount() - 1 == manager.getPosition(view)) {
+                    outRect.set(0, 0, 0, layoutSize);
+                }
+                return;
+            }
+
+            if (layoutManager == GRIDLAYOUT_MANAGER) {
+                GridLayoutManager manager = (GridLayoutManager) parent.getLayoutManager();
+                int visibleCount = parent.getChildCount();
+                int allCount = manager.getItemCount();
+                int lastPosition = manager.getPosition(view);
+                int childPosition = manager.findLastCompletelyVisibleItemPosition();
+                Log.e(CCXRECYCLEVIEW_LOG, "visibleCount = " + visibleCount + " allCount = " + allCount + " lastPosition = " + lastPosition + " childPosition = " + childPosition);
+                for(int index = 1; index <= rowCount; index++) {
+                    if (parent.getChildCount() <= manager.getItemCount() && allCount - index == manager.getPosition(view)) {
+                        outRect.set(0, 0, 0, layoutSize);
+                    }
+                }
             }
         }
     };
