@@ -1,7 +1,7 @@
 package cn.ccx.mymodule;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,7 @@ import java.util.List;
 
 import cn.ccx.recycleview.CCXRecycleView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     List<String> list = new ArrayList<>();
 
