@@ -16,7 +16,7 @@
 
 ```java
 	dependencies {
-	        compile 'com.github.chanchangxing:CCXRecyclerView:1.3.1'
+	        compile 'com.github.chanchangxing:CCXRecyclerView:1.3.2'
 	}
 ```
 
