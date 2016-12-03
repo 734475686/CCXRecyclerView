@@ -23,6 +23,12 @@
 ```java
 //设置是否有删除功能
 ccxRecycleView.setDeleteEnable(true);
+//删除成功
+list.remove(position)
+adapter.notifyItemRemoved(position);
+//删除失败
+adapter.notifyItemChanged(position);
+
 //设置是否有加载更多功能
 ccxRecycleView.setLoadMoreEnable(true);
 //设置是否有分割线
