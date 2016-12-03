@@ -3,6 +3,7 @@ package cn.ccx.mymodule;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +32,8 @@ public class MainActivity extends Activity {
 
         ccxRecycleView.setDivideEnable(true);
         ccxRecycleView.setLoadMoreEnable(true);
-        ccxRecycleView.setLayoutManager(CCXRecycleView.GRIDLAYOUT_MANAGER);
-
+        ccxRecycleView.setLayoutManager(CCXRecycleView.LINEARLAYOUT_MANAGER);
+        ccxRecycleView.setDeleteEnable(true, 3);
         ccxRecycleView.setAdapter(adapter);
         ccxRecycleView.addLoadMoreListener(new CCXRecycleView.OnLoadMoreListener() {
             @Override
@@ -48,6 +49,7 @@ public class MainActivity extends Activity {
             public void delete(int position) {
                 list.remove(position);
                 adapter.notifyItemRemoved(position);
+                Log.e("asdfasdf", "asdfasdfasdf");
             }
         });
     }

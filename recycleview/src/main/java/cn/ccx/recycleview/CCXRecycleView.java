@@ -17,6 +17,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by chenchangxing on 2016/10/17.
  */
@@ -44,14 +47,19 @@ public class CCXRecycleView extends RecyclerView {
     private OnLoadMoreListener onLoadMoreListener;
     private OnDeleteListener onDeleteListener;
 
+    private List<Integer> ignorePositions;
 
     public CCXRecycleView(Context context) {
         super(context);
+
+        ignorePositions = new ArrayList<>();
     }
 
     public CCXRecycleView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
+
+        ignorePositions = new ArrayList<>();
     }
 
     private void init(Context context, AttributeSet attrs) {
@@ -87,7 +95,6 @@ public class CCXRecycleView extends RecyclerView {
                 getResources().getColor(R.color.black));
 
 
-
         typedArray.recycle();
     }
 
@@ -121,6 +128,29 @@ public class CCXRecycleView extends RecyclerView {
         if (enable) {
             ItemTouchHelper helper = new ItemTouchHelper(callback);
             helper.attachToRecyclerView(this);
+        }
+    }
+
+    public void setDeleteEnable(boolean enable, int ignorePosition) {
+        if (enable) {
+            ignorePositions.add(ignorePosition);
+            setDeleteEnable(true);
+        }
+    }
+
+    public void setDeleteEnable(boolean enable, int[] ignorePosition) {
+        if (enable) {
+            for (int i = 0; i < ignorePosition.length; i++) {
+                ignorePositions.add(ignorePosition[i]);
+            }
+            setDeleteEnable(true);
+        }
+    }
+
+    public void setDeleteEnable(boolean enable, List<Integer> ignorePositions) {
+        if (enable) {
+            this.ignorePositions.addAll(ignorePositions);
+            setDeleteEnable(true);
         }
     }
 
@@ -189,6 +219,13 @@ public class CCXRecycleView extends RecyclerView {
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            if (!ignorePositions.isEmpty()) {
+                for (int i : ignorePositions) {
+                    if (i == viewHolder.getAdapterPosition()) {
+                        return;
+                    }
+                }
+            }
             if (onDeleteListener != null) {
                 onDeleteListener.delete(viewHolder.getAdapterPosition());
             } else {
@@ -198,6 +235,13 @@ public class CCXRecycleView extends RecyclerView {
 
         @Override
         public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            if (!ignorePositions.isEmpty()) {
+                for (int i : ignorePositions) {
+                    if (i == viewHolder.getAdapterPosition()) {
+                        return;
+                    }
+                }
+            }
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
                 //滑动时改变Item的透明度
@@ -291,7 +335,7 @@ public class CCXRecycleView extends RecyclerView {
                 int lastPosition = manager.getPosition(view);
                 int childPosition = manager.findLastCompletelyVisibleItemPosition();
                 Log.e(CCXRECYCLEVIEW_LOG, "visibleCount = " + visibleCount + " allCount = " + allCount + " lastPosition = " + lastPosition + " childPosition = " + childPosition);
-                for(int index = 1; index <= rowCount; index++) {
+                for (int index = 1; index <= rowCount; index++) {
                     if (parent.getChildCount() <= manager.getItemCount() && allCount - index == manager.getPosition(view)) {
                         outRect.set(0, 0, 0, layoutSize);
                     }
