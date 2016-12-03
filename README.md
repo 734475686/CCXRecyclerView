@@ -16,13 +16,15 @@
 
 ```java
 	dependencies {
-	        compile 'com.github.chanchangxing:CCXRecyclerView:1.3.2'
+	        compile 'com.github.chanchangxing:CCXRecyclerView:1.3.3'
 	}
 ```
 
 ```java
 //设置是否有删除功能
 ccxRecycleView.setDeleteEnable(true);
+//设置删除功能开启并设置某个adapter没有删除
+ccxRecycleView.setDeleteEnable(true, ignorePosition);
 //删除成功
 list.remove(position)
 adapter.notifyItemRemoved(position);
