@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:myapp="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="cn.ccx.mymodule.MainActivity">
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"></RelativeLayout>
     <cn.ccx.recycleview.CCXRecycleView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
@@ -15,4 +20,4 @@
         myapp:text="My Life For Android"
         myapp:text_size="16sp"
         myapp:text_color="@color/test" />
-</RelativeLayout>
+</LinearLayout>
