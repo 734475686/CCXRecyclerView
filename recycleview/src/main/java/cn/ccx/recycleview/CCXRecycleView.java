@@ -44,6 +44,8 @@ public class CCXRecycleView extends RecyclerView {
     private float emptyTextSize;
     private int emptyTextColor;
 
+    private boolean isNoMore;
+
     private OnLoadMoreListener onLoadMoreListener;
     private OnDeleteListener onDeleteListener;
 
@@ -181,9 +183,7 @@ public class CCXRecycleView extends RecyclerView {
     }
 
     public void setNoMoreEnable(boolean enable) {
-        if (enable) {
-            super.removeItemDecoration(loadMoreDecoration);
-        }
+        isNoMore = enable;
     }
 
     OnScrollListener onScrollListener = new OnScrollListener() {
@@ -302,7 +302,7 @@ public class CCXRecycleView extends RecyclerView {
 
             View view = parent.getChildAt(parent.getChildCount() - 1);
 
-            String content = "加载更多";
+            String content = !isNoMore ? "加载更多" : "已经是最后一页";
 
             int left = (int) (width - content.length() * textSize) / 2;
 
@@ -314,13 +314,13 @@ public class CCXRecycleView extends RecyclerView {
 
                 LinearLayoutManager manager = (LinearLayoutManager) parent.getLayoutManager();
 
-                if (parent.getChildCount() < manager.getItemCount() && parent.getChildCount() - 1 <= manager.findLastCompletelyVisibleItemPosition()) {
+                if (manager.getItemCount() - 1 >=  manager.findLastCompletelyVisibleItemPosition()) {
                     c.drawText(content, left, view.getBottom() + layoutSize / 2 + textSize / 2, paint);
                 }
             } else {
                 GridLayoutManager manager = (GridLayoutManager) parent.getLayoutManager();
 
-                if (parent.getChildCount() < manager.getItemCount() && parent.getChildCount() - 1 <= manager.findLastCompletelyVisibleItemPosition()) {
+                if (manager.getItemCount() - 1 >= manager.findLastCompletelyVisibleItemPosition()) {
                     c.drawText(content, left, view.getBottom() + layoutSize / 2 + textSize / 2, paint);
                 }
             }
@@ -334,7 +334,8 @@ public class CCXRecycleView extends RecyclerView {
             if (layoutManager == LINEARLAYOUT_MANAGER) {
                 LinearLayoutManager manager = (LinearLayoutManager) parent.getLayoutManager();
 
-                if (parent.getChildCount() < manager.getItemCount() && manager.getItemCount() - 1 == manager.getPosition(view)) {
+                if (manager.getItemCount() - 1 >= manager.findLastCompletelyVisibleItemPosition()
+                        && manager.getItemCount() - 1 == manager.getPosition(view)) {
                     outRect.set(0, 0, 0, layoutSize);
                 }
                 return;
@@ -342,7 +343,8 @@ public class CCXRecycleView extends RecyclerView {
 
             if (layoutManager == GRIDLAYOUT_MANAGER) {
                 GridLayoutManager manager = (GridLayoutManager) parent.getLayoutManager();
-                if (parent.getChildCount() < manager.getItemCount() && manager.getItemCount() - left-- == manager.getPosition(view)) {
+                if (manager.getItemCount() - 1 >= manager.findLastCompletelyVisibleItemPosition()
+                        && manager.getItemCount() - left-- == manager.getPosition(view)) {
                     outRect.set(0, 0, 0, layoutSize);
                 } else {
                     left = manager.getItemCount() % rowCount == 0 ? rowCount : manager.getItemCount() % rowCount ;

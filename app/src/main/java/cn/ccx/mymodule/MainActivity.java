@@ -22,13 +22,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        for (int i= 0; i < 48; i++) {
+        for (int i= 0; i < 50; i++) {
             list.add("aaa");
         }
 
         final BaseAdapter adapter = new BaseAdapter(list);
 
-        CCXRecycleView ccxRecycleView = (CCXRecycleView) findViewById(R.id.recycler);
+        final CCXRecycleView ccxRecycleView = (CCXRecycleView) findViewById(R.id.recycler);
 
         ccxRecycleView.setDivideEnable(true);
         ccxRecycleView.setLoadMoreEnable(true);
@@ -50,6 +50,7 @@ public class MainActivity extends Activity {
                 list.remove(position);
                 adapter.notifyItemRemoved(position);
                 Log.e("asdfasdf", "asdfasdfasdf");
+                ccxRecycleView.setNoMoreEnable(true);
             }
         });
     }
