@@ -315,13 +315,17 @@ public class CCXRecycleView extends RecyclerView {
                 LinearLayoutManager manager = (LinearLayoutManager) parent.getLayoutManager();
 
                 if (manager.getItemCount() - 1 >=  manager.findLastCompletelyVisibleItemPosition()) {
-                    c.drawText(content, left, view.getBottom() + layoutSize / 2 + textSize / 2, paint);
+                    if (view != null) {
+                        c.drawText(content, left, view.getBottom() + layoutSize / 2 + textSize / 2, paint);
+                    }
                 }
             } else {
                 GridLayoutManager manager = (GridLayoutManager) parent.getLayoutManager();
 
                 if (manager.getItemCount() - 1 >= manager.findLastCompletelyVisibleItemPosition()) {
-                    c.drawText(content, left, view.getBottom() + layoutSize / 2 + textSize / 2, paint);
+                    if (view != null) {
+                        c.drawText(content, left, view.getBottom() + layoutSize / 2 + textSize / 2, paint);
+                    }
                 }
             }
         }
