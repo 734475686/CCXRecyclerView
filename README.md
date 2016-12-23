@@ -57,6 +57,8 @@ ccxRecycleView.addLoadMoreListener(new CCXRecycleView.OnLoadMoreListener() {
                 adapter.notifyDataSetChanged();
             }
         });
+//展示最后一页
+ccxRecycleView.setNoMoreEnable(enable);
 ```
 
 ```xml
