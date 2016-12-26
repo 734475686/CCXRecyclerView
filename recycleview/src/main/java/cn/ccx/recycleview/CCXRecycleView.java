@@ -181,8 +181,13 @@ public class CCXRecycleView extends RecyclerView {
             return;
         }
 
-        if (super.getAdapter().getItemCount() > 0) {
+        if (enable && super.getAdapter().getItemCount() > 0) {
             Log.e(CCXRECYCLEVIEW_LOG, "your item is not empty");
+            return;
+        }
+
+        if (!enable) {
+            removeItemDecoration(emptyDecoration);
         }
     }
 
@@ -318,7 +323,7 @@ public class CCXRecycleView extends RecyclerView {
 
                 LinearLayoutManager manager = (LinearLayoutManager) parent.getLayoutManager();
 
-                if (manager.getItemCount() - 1 >=  manager.findLastCompletelyVisibleItemPosition()) {
+                if (manager.getItemCount() - 1 >= manager.findLastCompletelyVisibleItemPosition()) {
                     if (view != null) {
                         c.drawText(content, left, view.getBottom() + layoutSize / 2 + textSize / 2, paint);
                     }
@@ -355,7 +360,7 @@ public class CCXRecycleView extends RecyclerView {
                         && manager.getItemCount() - left-- == manager.getPosition(view)) {
                     outRect.set(0, 0, 0, layoutSize);
                 } else {
-                    left = manager.getItemCount() % rowCount == 0 ? rowCount : manager.getItemCount() % rowCount ;
+                    left = manager.getItemCount() % rowCount == 0 ? rowCount : manager.getItemCount() % rowCount;
                 }
             }
         }
