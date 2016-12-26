@@ -33,10 +33,15 @@ adapter.notifyItemChanged(position);
 
 //设置是否有加载更多功能
 ccxRecycleView.setLoadMoreEnable(true);
+//展示最后一页
+ccxRecycleView.setNoMoreEnable(enable);
+
 //设置是否有分割线
 ccxRecycleView.setDivideEnable(true);
+
 //设置是否展示空页面
 ccxRecycleView.setEmptyViewEnable(true);
+
 //因为加载更多的局限性，请务必设置通过这种方法设置布局
 ccxRecycleView.setLayoutManager(CCXRecycleView.LINEARLAYOUT_MANAGER)
 ccxRecycleView.setLayoutManager(CCXRecycleView.GRIDLAYOUT_MANAGER)
@@ -57,8 +62,7 @@ ccxRecycleView.addLoadMoreListener(new CCXRecycleView.OnLoadMoreListener() {
                 adapter.notifyDataSetChanged();
             }
         });
-//展示最后一页
-ccxRecycleView.setNoMoreEnable(enable);
+
 ```
 
 ```xml

@@ -19,6 +19,5 @@
         myapp:divider_color="@color/test"
         myapp:text="My Life For Android"
         myapp:text_size="16sp"
-        myapp:empty_icon="@drawable/common_empty_icon"
         myapp:text_color="@color/test" />
 </LinearLayout>
