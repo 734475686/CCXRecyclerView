@@ -40,6 +40,7 @@ public class CCXRecycleView extends RecyclerView {
     private float textSize;
     private int textColor;
 
+    private int emptyIcon;
     private String emptyText;
     private float emptyTextSize;
     private int emptyTextColor;
@@ -84,6 +85,9 @@ public class CCXRecycleView extends RecyclerView {
         textColor = typedArray.getColor(
                 R.styleable.CCXRecycleView_text_color,
                 getResources().getColor(R.color.black));
+
+        emptyIcon = typedArray.getResourceId(
+                R.styleable.CCXRecycleView_empty_icon, R.drawable.no_data);
 
         emptyText = typedArray.getString(
                 R.styleable.CCXRecycleView_empty_text);
@@ -363,7 +367,7 @@ public class CCXRecycleView extends RecyclerView {
             super.onDraw(c, parent, state);
 
 
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.no_data);
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(emptyIcon);
             Bitmap bitmap = bitmapDrawable.getBitmap();
             int iconX = parent.getWidth() / 2 - bitmap.getWidth() / 2;
             int iconY = (int) (parent.getHeight() / 2 - bitmap.getHeight() / 2 - emptyTextSize);

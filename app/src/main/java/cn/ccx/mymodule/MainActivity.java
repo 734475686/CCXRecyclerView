@@ -22,19 +22,17 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        for (int i= 0; i < 50; i++) {
-            list.add("aaa");
-        }
+
 
         final BaseAdapter adapter = new BaseAdapter(list);
 
         final CCXRecycleView ccxRecycleView = (CCXRecycleView) findViewById(R.id.recycler);
 
         ccxRecycleView.setDivideEnable(true);
-        ccxRecycleView.setLoadMoreEnable(true);
         ccxRecycleView.setLayoutManager(CCXRecycleView.GRIDLAYOUT_MANAGER, 3);
         ccxRecycleView.setDeleteEnable(true);
         ccxRecycleView.setAdapter(adapter);
+        ccxRecycleView.setEmptyViewEnable(true);
         ccxRecycleView.addLoadMoreListener(new CCXRecycleView.OnLoadMoreListener() {
             @Override
             public void loadMore() {

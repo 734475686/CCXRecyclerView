@@ -10,7 +10,7 @@
     <RelativeLayout
         android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="200dp"></RelativeLayout>
+        android:layout_height="200dp"/>
     <cn.ccx.recycleview.CCXRecycleView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
@@ -19,5 +19,6 @@
         myapp:divider_color="@color/test"
         myapp:text="My Life For Android"
         myapp:text_size="16sp"
+        myapp:empty_icon="@drawable/common_empty_icon"
         myapp:text_color="@color/test" />
 </LinearLayout>
