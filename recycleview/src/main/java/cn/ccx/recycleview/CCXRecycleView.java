@@ -45,6 +45,8 @@ public class CCXRecycleView extends RecyclerView {
     private float emptyTextSize;
     private int emptyTextColor;
 
+    private boolean hasDivider;
+    private boolean hasLoadMore;
     private boolean isNoMore;
 
     private OnLoadMoreListener onLoadMoreListener;
@@ -161,12 +163,14 @@ public class CCXRecycleView extends RecyclerView {
     }
 
     public void setDivideEnable(boolean enable) {
+        hasDivider = enable;
         if (enable) {
             addItemDecoration(dividerDecoration);
         }
     }
 
     public void setLoadMoreEnable(boolean enable) {
+        hasLoadMore = enable;
         if (enable) {
             addOnScrollListener(onScrollListener);
             addItemDecoration(loadMoreDecoration, this.getChildCount());
@@ -188,6 +192,8 @@ public class CCXRecycleView extends RecyclerView {
 
         if (!enable) {
             removeItemDecoration(emptyDecoration);
+            setDivideEnable(hasDivider);
+            setLoadMoreEnable(hasLoadMore);
         }
     }
 
