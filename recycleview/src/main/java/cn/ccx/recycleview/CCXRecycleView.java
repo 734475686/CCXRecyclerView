@@ -206,7 +206,7 @@ public class CCXRecycleView extends RecyclerView {
     public void setNoMoreEnable(boolean enable) {
         isNoMore = enable;
     }
-
+//
     OnScrollListener onScrollListener = new OnScrollListener() {
         boolean isSlidingToLast;
 
