@@ -192,7 +192,7 @@ public class CCXRecycleView extends RecyclerView {
             isEmpty = true;
             return;
         }
-
+//
         if (!enable) {
             if (isEmpty) {
                 removeItemDecoration(emptyDecoration);
