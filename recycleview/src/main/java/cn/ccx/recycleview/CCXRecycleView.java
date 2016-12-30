@@ -183,11 +183,13 @@ public class CCXRecycleView extends RecyclerView {
             addItemDecoration(emptyDecoration);
             removeItemDecoration(loadMoreDecoration);
             removeItemDecoration(dividerDecoration);
+            isEmpty = true;
             return;
         }
 
         if (enable && super.getAdapter().getItemCount() > 0) {
             Log.e(CCXRECYCLEVIEW_LOG, "your item is not empty");
+            isEmpty = true;
             return;
         }
 
