@@ -48,6 +48,7 @@ public class CCXRecycleView extends RecyclerView {
     private boolean hasDivider;
     private boolean hasLoadMore;
     private boolean isNoMore;
+    private boolean isEmpty;
 
     private OnLoadMoreListener onLoadMoreListener;
     private OnDeleteListener onDeleteListener;
@@ -191,10 +192,13 @@ public class CCXRecycleView extends RecyclerView {
         }
 
         if (!enable) {
-            removeItemDecoration(emptyDecoration);
-            setDivideEnable(hasDivider);
-            setLoadMoreEnable(hasLoadMore);
+            if (isEmpty) {
+                removeItemDecoration(emptyDecoration);
+                setDivideEnable(hasDivider);
+                setLoadMoreEnable(hasLoadMore);
+            }
         }
+        isEmpty = enable;
     }
 
     public void setNoMoreEnable(boolean enable) {
