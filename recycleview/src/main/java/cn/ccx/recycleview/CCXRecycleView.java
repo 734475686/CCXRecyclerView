@@ -206,7 +206,8 @@ public class CCXRecycleView extends RecyclerView {
     public void setNoMoreEnable(boolean enable) {
         isNoMore = enable;
     }
-//
+
+    //
     OnScrollListener onScrollListener = new OnScrollListener() {
         boolean isSlidingToLast;
 
@@ -327,13 +328,15 @@ public class CCXRecycleView extends RecyclerView {
 
             int left = (int) (width - content.length() * textSize) / 2;
 
-            Log.e("width", "width = " + width);
-            Log.e("text", "text = " + content.length() + " textsize = " + textSize);
-            Log.e("left", "left = " + left);
-
             if (layoutManager == LINEARLAYOUT_MANAGER) {
 
+
+
                 LinearLayoutManager manager = (LinearLayoutManager) parent.getLayoutManager();
+
+                if (manager.getChildCount() == manager.getItemCount()) {
+                    return;
+                }
 
                 if (manager.getItemCount() - 1 >= manager.findLastCompletelyVisibleItemPosition()) {
                     if (view != null) {
@@ -342,6 +345,10 @@ public class CCXRecycleView extends RecyclerView {
                 }
             } else {
                 GridLayoutManager manager = (GridLayoutManager) parent.getLayoutManager();
+
+                if (manager.getChildCount() == manager.getItemCount()) {
+                    return;
+                }
 
                 if (manager.getItemCount() - 1 >= manager.findLastCompletelyVisibleItemPosition()) {
                     if (view != null) {

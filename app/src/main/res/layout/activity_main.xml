@@ -7,17 +7,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="cn.ccx.mymodule.MainActivity">
-    <RelativeLayout
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"/>
     <cn.ccx.recycleview.CCXRecycleView
         android:id="@+id/recycler"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         myapp:divider_width="1dp"
         myapp:divider_color="@color/test"
         myapp:text="My Life For Android"
         myapp:text_size="16sp"
         myapp:text_color="@color/test" />
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="add"/>
 </LinearLayout>
