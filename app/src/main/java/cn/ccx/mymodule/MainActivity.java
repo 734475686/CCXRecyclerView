@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
-
+        list.add("aaa");list.add("aaa");list.add("aaa");list.add("aaa");list.add("aaa");list.add("aaa");list.add("aaa");
         final BaseAdapter adapter = new BaseAdapter(list);
         Button button = (Button) findViewById(R.id.button);
         final CCXRecycleView ccxRecycleView = (CCXRecycleView) findViewById(R.id.recycler);
@@ -53,13 +53,13 @@ public class MainActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                list.add("aaa");
+
                 adapter.notifyDataSetChanged();
             }
         });
     }
 
-    class BaseAdapter extends RecyclerView.Adapter {
+    private class BaseAdapter extends RecyclerView.Adapter {
 
         List<String> list;
 
@@ -80,7 +80,7 @@ public class MainActivity extends Activity {
 
         @Override
         public int getItemCount() {
-            return 15;
+            return list.size();
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    class Base2Adapter extends RecyclerView.Adapter {
+    private class Base2Adapter extends RecyclerView.Adapter {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,13 +17,10 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by chenchangxing on 2016/10/17.
- */
 
 public class CCXRecycleView extends RecyclerView {
 
@@ -36,9 +34,7 @@ public class CCXRecycleView extends RecyclerView {
     private int dividerColor;
     private float dividerWidth;
 
-    private String text;
     private float textSize;
-    private int textColor;
 
     private int emptyIcon;
     private String emptyText;
@@ -78,16 +74,16 @@ public class CCXRecycleView extends RecyclerView {
                 R.styleable.CCXRecycleView_divider_width,
                 0);
 
-        text = typedArray.getString(
-                R.styleable.CCXRecycleView_text);
+//        text = typedArray.getString(
+//                R.styleable.CCXRecycleView_text);
 
         textSize = typedArray.getDimension(
                 R.styleable.CCXRecycleView_text_size,
                 dip2px(14));
 
-        textColor = typedArray.getColor(
-                R.styleable.CCXRecycleView_text_color,
-                getResources().getColor(R.color.black));
+//        textColor = typedArray.getColor(
+//                R.styleable.CCXRecycleView_text_color,
+//                getResources().getColor(R.color.black));
 
         emptyIcon = typedArray.getResourceId(
                 R.styleable.CCXRecycleView_empty_icon, R.drawable.no_data);
@@ -149,8 +145,8 @@ public class CCXRecycleView extends RecyclerView {
 
     public void setDeleteEnable(boolean enable, int[] ignorePosition) {
         if (enable) {
-            for (int i = 0; i < ignorePosition.length; i++) {
-                ignorePositions.add(ignorePosition[i]);
+            for (int anIgnorePosition : ignorePosition) {
+                ignorePositions.add(anIgnorePosition);
             }
             setDeleteEnable(true);
         }
@@ -294,17 +290,16 @@ public class CCXRecycleView extends RecyclerView {
                 View child = parent.getChildAt(i);
                 RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
                 int top = child.getBottom() + params.bottomMargin;
-
-                paint.setStrokeWidth(dip2px(dividerWidth));
+                paint.setStrokeWidth(dividerWidth);
                 paint.setColor(dividerColor);
-                c.drawLine(left, top, right, top, paint);
+                c.drawLine(left, top + dividerWidth / 2, right, top + dividerWidth / 2, paint);
             }
         }
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, State state) {
             super.getItemOffsets(outRect, view, parent, state);
-            outRect.set(0, 0, 0, dip2px(dividerWidth));
+            outRect.set(0, 0, 0, (int) dividerWidth);
         }
     };
 
@@ -321,7 +316,6 @@ public class CCXRecycleView extends RecyclerView {
             Paint paint = new Paint();
             paint.setTextSize(textSize);
 
-
             View view = parent.getChildAt(parent.getChildCount() - 1);
 
             String content = !isNoMore ? "加载更多" : "已经是最后一页";
@@ -329,8 +323,6 @@ public class CCXRecycleView extends RecyclerView {
             int left = (int) (width - content.length() * textSize) / 2;
 
             if (layoutManager == LINEARLAYOUT_MANAGER) {
-
-
 
                 LinearLayoutManager manager = (LinearLayoutManager) parent.getLayoutManager();
 
@@ -340,7 +332,7 @@ public class CCXRecycleView extends RecyclerView {
 
                 if (manager.getItemCount() - 1 >= manager.findLastCompletelyVisibleItemPosition()) {
                     if (view != null) {
-                        c.drawText(content, left, view.getBottom() + layoutSize / 2 + textSize / 2, paint);
+                        c.drawText(content, left, (int) (view.getBottom() + layoutSize / 2 + dividerWidth + textSize / 2), paint);
                     }
                 }
             } else {
@@ -352,7 +344,7 @@ public class CCXRecycleView extends RecyclerView {
 
                 if (manager.getItemCount() - 1 >= manager.findLastCompletelyVisibleItemPosition()) {
                     if (view != null) {
-                        c.drawText(content, left, view.getBottom() + layoutSize / 2 + textSize / 2, paint);
+                        c.drawText(content, left, (int) (view.getBottom() + layoutSize / 2 + dividerWidth + textSize / 2), paint);
                     }
                 }
             }

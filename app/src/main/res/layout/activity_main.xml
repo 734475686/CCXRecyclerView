@@ -12,7 +12,7 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        myapp:divider_width="1dp"
+        myapp:divider_width="15dp"
         myapp:divider_color="@color/test"
         myapp:text="My Life For Android"
         myapp:text_size="16sp"
